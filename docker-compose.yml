@@ -1,10 +1,17 @@
 services:
-  archiver:
+  registry:
     build:
-      context: ./archiver
+      context: ./registry
       dockerfile: Dockerfile
     volumes:
-      - archiver-data:/var/lib/mysql
+      - registry-data:/var/lib/mysql
+
+  archive:
+    build:
+      context: ./archive
+      dockerfile: Dockerfile
+    volumes:
+      - archive-data:/data
 
   lakehouse:
     build:
@@ -13,14 +20,6 @@ services:
     volumes:
       - lakehouse-data:/data
 
-  transformer:
-    build:
-      context: ./transformer
-      dockerfile: Dockerfile
-    depends_on:
-      - lakehouse 
-      - archiver
-
   ingestor:
     build:
       context: ./ingestor
@@ -28,14 +27,16 @@ services:
     depends_on:
       - lakehouse 
 
-  visualizer:
+  transformer:
     build:
-      context: ./visualizer
+      context: ./transformer
       dockerfile: Dockerfile
     depends_on:
-      - transformer
-      - archiver
+      - lakehouse 
+      - archive
+      - registry
 
 volumes:
-  archiver-data:
+  archive-data:
+  registry-data:
   lakehouse-data:
