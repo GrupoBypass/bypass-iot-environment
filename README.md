@@ -1,6 +1,6 @@
 # Bypass IoT Environment
 
-Um ambiente containerizado para testes e bypass de restrições em dispositivos IoT.
+Um ambiente containerizado para o desenvolvimento do nosso app (nome do app).
 
 📋 Requisitos
 
